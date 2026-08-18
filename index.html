@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-</head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sazedul Generator Tech</title>
+    <title>SAZEDUL Generator Tech</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            padding: 50px 20px;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        p {
-            font-size: 18px;
-        }
-        .btn {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #3498db;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; background-color: #f0f2f5; color: #333; }
+        header { background: #2c3e50; color: #fff; padding: 2rem 1rem; text-align: center; }
+        .container { max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h2 { border-bottom: 2px solid #3498db; display: inline-block; padding-bottom: 5px; color: #2c3e50; }
+        ul { list-style: none; padding: 0; }
+        li { background: #ecf0f1; margin: 10px 0; padding: 15px; border-radius: 5px; transition: transform 0.3s, background 0.3s; cursor: pointer; display: flex; align-items: center; }
+        li:hover { background: #dcdde1; transform: translateX(10px); }
+        .icon { margin-right: 15px; font-size: 1.2em; }
     </style>
 </head>
 <body>
-    <h1>Welcome to Sazedul Tech</h1>
-    <p>This is my official website hosted on GitHub Pages.</p>
-    <a href="#" class="btn">Learn More</a>
+
+<header>
+    <h1>SAZEDUL Generator Tech</h1>
+    <p>Professional Technical Solutions</p>
+</header>
+
+<div class="container">
+    <h2>Our Core Expertise</h2>
+    <ul id="serviceList">
+        <li><span class="icon">⚙️</span> Engine Technology</li>
+        <li><span class="icon">⚡</span> Electrical</li>
+        <li><span class="icon">🔧</span> Mechanical</li>
+        <li><span class="icon">🎛️</span> Control System</li>
+        <li><span class="icon">🔥</span> Gas Generator</li>
+        <li><span class="icon">🧰</span> Maintenance</li>
+        <li><span class="icon">🚨</span> Troubleshooting</li>
+        <li><span class="icon">📚</span> Technical Knowledge</li>
+        <li><span class="icon">📝</span> Practical Guides</li>
+    </ul>
+</div>
+
+<script>
+    // Simple JS interaction: Add a click log or effect
+    document.querySelectorAll('li').forEach(item => {
+        item.addEventListener('click', () => {
+            console.log("You selected: " + item.innerText);
+            item.style.borderLeft = "5px solid #3498db";
+        });
+    });
+</script>
+
 </body>
 </html>
