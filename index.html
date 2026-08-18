@@ -8,6 +8,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; margin: 0; background-color: #f0f2f5; color: #333; }
         header { background: #2c3e50; color: #fff; padding: 2rem 1rem; text-align: center; }
         .container { max-width: 800px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .hero-img { width: 100%; max-height: 350px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; }
         h2 { border-bottom: 2px solid #3498db; display: inline-block; padding-bottom: 5px; color: #2c3e50; }
         ul { list-style: none; padding: 0; }
         li { background: #ecf0f1; margin: 10px 0; padding: 15px; border-radius: 5px; transition: transform 0.3s, background 0.3s; cursor: pointer; display: flex; align-items: center; }
@@ -23,6 +24,9 @@
 </header>
 
 <div class="container">
+    <!-- Image Section -->
+    <img src="images/tech.png" alt="SAZEDUL Generator Tech" class="hero-img">
+
     <h2>Our Core Expertise</h2>
     <ul id="serviceList">
         <li><span class="icon">⚙️</span> Engine Technology</li>
@@ -38,10 +42,8 @@
 </div>
 
 <script>
-    // Simple JS interaction: Add a click log or effect
     document.querySelectorAll('li').forEach(item => {
         item.addEventListener('click', () => {
-            console.log("You selected: " + item.innerText);
             item.style.borderLeft = "5px solid #3498db";
         });
     });
