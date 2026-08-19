@@ -79,29 +79,24 @@
 </head>
 <body>
 
-    <!-- AUTHENTICATION SYSTEM (Sign Up / Sign In Modal) -->
+    <!-- AUTHENTICATION SYSTEM -->
     <div id="auth-overlay">
         <div class="auth-card">
             <i class="fa-solid fa-bolt fs-1 text-warning mb-2"></i>
             <h3 class="fw-bold mb-1" style="color: var(--primary-color);">SAZEDUL TECH</h3>
-            <p id="auth-title" class="text-muted small mb-4">Sign in to access technical resources</p>
+            <p class="text-muted small mb-4">Enter any email & password (Default: <b>1234</b>) to enter</p>
             
-            <form id="auth-form" onsubmit="handleAuth(event)">
+            <form onsubmit="handleAuth(event)">
                 <div class="mb-3 text-start">
                     <label class="form-label small font-weight-bold">Email Address</label>
                     <input type="email" id="auth-email" class="form-control" required placeholder="name@example.com">
                 </div>
                 <div class="mb-3 text-start">
                     <label class="form-label small font-weight-bold">Password</label>
-                    <input type="password" id="auth-password" class="form-control" required placeholder="******">
+                    <input type="password" id="auth-password" class="form-control" required placeholder="Enter 1234">
                 </div>
-                <button type="submit" id="auth-btn" class="btn btn-warning w-100 fw-bold mb-3 py-2">SIGN IN</button>
+                <button type="submit" class="btn btn-warning w-100 fw-bold mb-3 py-2">ENTER WEBSITE</button>
             </form>
-            
-            <div class="small">
-                <span id="auth-switch-text">Don't have an account?</span>
-                <a href="javascript:void(0)" id="auth-switch-link" onclick="toggleAuthMode()" class="fw-bold text-primary text-decoration-none">Sign Up</a>
-            </div>
         </div>
     </div>
 
@@ -176,7 +171,7 @@
                             <textarea id="post-text" class="form-control form-control-sm" rows="3" placeholder="Write technical notes, details, description..."></textarea>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" id="post-img-url" class="form-control form-control-sm" placeholder="Image File Name/URL (e.g., photo.jpg)">
+                            <input type="text" id="post-img-url" class="form-control form-control-sm" placeholder="Image File Name/URL (e.g., electrical.jpg)">
                         </div>
                         <div class="col-md-6">
                             <input type="text" id="post-video-url" class="form-control form-control-sm" placeholder="YouTube Embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID)">
@@ -279,57 +274,25 @@
 
     <!-- Script Logic -->
     <script>
-        let isSignUp = false;
         let currentCategory = '';
-
-        // Check Login Status
-        window.onload = function() {
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('main-website').style.display = 'block';
-            }
-        };
-
-        function toggleAuthMode() {
-            isSignUp = !isSignUp;
-            document.getElementById('auth-title').innerText = isSignUp ? "Create a new account" : "Sign in to access technical resources";
-            document.getElementById('auth-btn').innerText = isSignUp ? "SIGN UP" : "SIGN IN";
-            document.getElementById('auth-switch-text').innerText = isSignUp ? "Already have an account?" : "Don't have an account?";
-            document.getElementById('auth-switch-link').innerText = isSignUp ? "Sign In" : "Sign Up";
-        }
 
         function handleAuth(e) {
             e.preventDefault();
-            const email = document.getElementById('auth-email').value.trim().toLowerCase();
             const password = document.getElementById('auth-password').value.trim();
 
-            if (!email || !password) {
-                alert("Please fill in all fields!");
-                return;
-            }
-
-            if (isSignUp) {
-                localStorage.setItem('user_' + email, password);
-                alert("Account created successfully! Now click SIGN IN.");
-                toggleAuthMode();
+            if (password === "1234" || password !== "") {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-website').style.display = 'block';
             } else {
-                const savedPassword = localStorage.getItem('user_' + email);
-                if (savedPassword && savedPassword === password) {
-                    localStorage.setItem('isLoggedIn', 'true');
-                    document.getElementById('auth-overlay').style.display = 'none';
-                    document.getElementById('main-website').style.display = 'block';
-                } else {
-                    alert("Invalid Email or Password! If you don't have an account, click 'Sign Up' first.");
-                }
+                alert("Incorrect password! Use 1234");
             }
         }
 
         function logout() {
-            localStorage.removeItem('isLoggedIn');
-            location.reload();
+            document.getElementById('main-website').style.display = 'none';
+            document.getElementById('auth-overlay').style.display = 'flex';
         }
 
-        // Open Category Details View
         function openCategory(title, img) {
             currentCategory = title;
             document.getElementById('detail-title').innerText = title;
@@ -343,4 +306,53 @@
             document.getElementById('detail-view').style.display = 'none';
         }
 
-      
+        function showHome() {
+            closeDetail();
+        }
+
+        function addPost() {
+            const title = document.getElementById('post-title').value;
+            const text = document.getElementById('post-text').value;
+            const img = document.getElementById('post-img-url').value;
+            const video = document.getElementById('post-video-url').value;
+
+            if (!title && !text && !img && !video) {
+                alert("Please fill at least one field!");
+                return;
+            }
+
+            const postsKey = 'posts_' + currentCategory;
+            let posts = JSON.parse(localStorage.getItem(postsKey) || '[]');
+            
+            posts.unshift({
+                id: Date.now(),
+                title: title,
+                text: text,
+                img: img,
+                video: video,
+                date: new Date().toLocaleDateString()
+            });
+
+            localStorage.setItem(postsKey, JSON.stringify(posts));
+
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-text').value = '';
+            document.getElementById('post-img-url').value = '';
+            document.getElementById('post-video-url').value = '';
+
+            loadPosts();
+        }
+
+        function loadPosts() {
+            const container = document.getElementById('posts-container');
+            const postsKey = 'posts_' + currentCategory;
+            let posts = JSON.parse(localStorage.getItem(postsKey) || '[]');
+
+            if (posts.length === 0) {
+                container.innerHTML = '<p class="text-muted small">No posts published yet for this category. Add one above!</p>';
+                return;
+            }
+
+            container.innerHTML = posts.map(post => `
+                <div class="post-card">
+                    <div class="d-flex justify-content-betwe
