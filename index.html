@@ -16,9 +16,20 @@
         }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; }
         
+        /* Auth Screen */
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 37, 47, 0.95); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .auth-card {
+            background: #fff; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center;
+        }
+
         /* Top Navigation Header */
         .top-header { background: #fff; padding: 15px 0; border-bottom: 1px solid #e0e0e0; }
-        .logo-text { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); letter-spacing: 0.5px; text-decoration: none; }
+        .logo-text { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); text-decoration: none; }
         .social-icons a { font-size: 1.2rem; margin-left: 15px; color: #555; transition: color 0.3s; }
         .social-icons a:hover { color: var(--accent-color); }
         
@@ -31,33 +42,23 @@
         .hero-banner { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('tech.png') center/cover; color: #fff; text-align: center; padding: 80px 20px; border-bottom: 5px solid var(--accent-color); }
         .hero-banner h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; color: #fff; }
         .hero-banner p { font-size: 1.1rem; color: #ddd; max-width: 600px; margin: 15px auto; }
-        .btn-custom { background-color: var(--accent-color); color: #000; font-weight: bold; border-radius: 4px; padding: 10px 25px; text-decoration: none; display: inline-block; }
+        .btn-custom { background-color: var(--accent-color); color: #000; font-weight: bold; border-radius: 4px; padding: 10px 25px; text-decoration: none; display: inline-block; cursor: pointer; }
         .btn-custom:hover { background-color: #e67e22; color: #fff; }
 
-        /* Quick Feature Bar */
-        .feature-bar { background: var(--primary-color); color: white; padding: 20px 0; }
-        .feature-item { text-align: center; border-right: 1px solid rgba(255,255,255,0.1); }
-        .feature-item:last-child { border-right: none; }
-        .feature-item i { font-size: 1.8rem; color: var(--accent-color); margin-bottom: 8px; }
-
-        /* Section Titles */
-        .section-title { text-align: center; margin: 40px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary-color); position: relative; }
-        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); display: block; margin: 8px auto 0; }
-
         /* Category Cards */
-        .cat-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s; height: 100%; border: 1px solid #eee; }
+        .cat-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s; height: 100%; border: 1px solid #eee; cursor: pointer; }
         .cat-card:hover { transform: translateY(-5px); }
         .cat-card img { height: 160px; object-fit: cover; width: 100%; }
         .cat-card .card-body { padding: 15px; }
         .cat-card h5 { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
         .cat-card p { font-size: 0.85rem; color: #666; }
 
-        /* Article Cards */
-        .article-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); height: 100%; border: 1px solid #eee; }
-        .article-card img { height: 140px; object-fit: cover; width: 100%; }
-        .article-card .card-body { padding: 15px; }
-        .article-card h6 { font-weight: 700; font-size: 0.95rem; margin-bottom: 5px; }
-        .article-card .date { font-size: 0.75rem; color: #999; }
+        /* Section Titles */
+        .section-title { text-align: center; margin: 40px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary-color); position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); display: block; margin: 8px auto 0; }
+
+        /* Detail Modal / Section */
+        #detail-view { display: none; background: #fff; border-radius: 8px; padding: 30px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
         /* Footer */
         footer { background: #111; color: #aaa; padding: 50px 0 20px; margin-top: 50px; font-size: 0.9rem; }
@@ -69,214 +70,242 @@
 </head>
 <body>
 
-    <!-- 1. Top Header (Logo, Search, Social Links) -->
-    <div class="top-header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <a href="#" class="logo-text d-flex align-items-center">
-                <i class="fa-solid fa-gear text-warning me-2 fs-3"></i>
-                <span>SAZEDUL <span style="color: var(--accent-color);">GENERATOR TECH</span></span>
-            </a>
-            <div class="d-flex align-items-center">
-                <form class="d-none d-md-flex me-3">
-                    <input class="form-control form-control-sm me-2" type="search" placeholder="Search..." aria-label="Search">
-                </form>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank"><i class="fab fa-youtube"></i></a>
-                    <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+    <!-- 1. AUTH SYSTEM (Sign Up / Sign In Popup) -->
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <h3 class="fw-bold mb-3" style="color: var(--primary-color);">SAZEDUL TECH</h3>
+            <p id="auth-title" class="text-muted small mb-4">Please Sign In to access the website</p>
+            
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                <div class="mb-3 text-start">
+                    <label class="form-label small font-weight-bold">Email Address</label>
+                    <input type="email" id="auth-email" class="form-control" required placeholder="name@example.com">
                 </div>
+                <div class="mb-3 text-start">
+                    <label class="form-label small font-weight-bold">Password</label>
+                    <input type="password" id="auth-password" class="form-control" required placeholder="******">
+                </div>
+                <button type="submit" id="auth-btn" class="btn btn-warning w-100 fw-bold mb-3">SIGN IN</button>
+            </form>
+            
+            <div class="small">
+                <span id="auth-switch-text">Don't have an account?</span>
+                <a href="#" id="auth-switch-link" onclick="toggleAuthMode()" class="fw-bold text-primary text-decoration-none">Sign Up</a>
             </div>
         </div>
     </div>
 
-    <!-- 2. Main Navigation Menu -->
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-        <div class="container">
-            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <i class="fas fa-bars fs-4"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#engine">ENGINE</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#electrical">ELECTRICAL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#mechanical">MECHANICAL</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#control">CONTROL SYSTEM</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#troubleshoot">TROUBLESHOOTING</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#downloads">DOWNLOADS</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#blog">BLOG</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">CONTACT</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- MAIN WEBSITE CONTENT (Hidden until signed in) -->
+    <div id="main-website" style="display: none;">
 
-    <!-- 3. Hero Banner -->
-    <div class="hero-banner">
-        <div class="container">
-            <h1>POWERING KNOWLEDGE<br><span style="color: var(--accent-color);">GENERATING SOLUTIONS</span></h1>
-            <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
-            <a href="#categories" class="btn-custom">EXPLORE NOW <i class="fas fa-arrow-right ms-2"></i></a>
-        </div>
-    </div>
-
-    <!-- 4. Quick Feature Bar -->
-    <div class="feature-bar d-none d-md-block">
-        <div class="container">
-            <div class="row">
-                <div class="col feature-item">
-                    <i class="fas fa-book-open"></i>
-                    <div>PRACTICAL GUIDES</div>
-                </div>
-                <div class="col feature-item">
-                    <i class="fas fa-lightbulb"></i>
-                    <div>EXPERT TIPS</div>
-                </div>
-                <div class="col feature-item">
-                    <i class="fas fa-wrench"></i>
-                    <div>TROUBLESHOOTING</div>
-                </div>
-                <div class="col feature-item">
-                    <i class="fas fa-cogs"></i>
-                    <div>MAINTENANCE</div>
-                </div>
-                <div class="col feature-item">
-                    <i class="fas fa-download"></i>
-                    <div>DOWNLOADS</div>
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="container d-flex justify-content-between align-items-center">
+                <a href="#" class="logo-text d-flex align-items-center">
+                    <i class="fa-solid fa-gear text-warning me-2 fs-3"></i>
+                    <span>SAZEDUL <span style="color: var(--accent-color);">GENERATOR TECH</span></span>
+                </a>
+                <div class="d-flex align-items-center">
+                    <div class="social-icons me-3">
+                        <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 5. Categories Section -->
-    <div class="container my-5" id="categories">
-        <h3 class="section-title">EXPLORE BY CATEGORY</h3>
-        <div class="row g-4">
-            <div class="col-6 col-md-4 col-lg-2-4">
-                <div class="cat-card">
-                    <img src="engine.webp" alt="Engine Technology" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h5>ENGINE TECHNOLOGY</h5>
-                        <p>MWM & CAT Gas Engine components, operation & settings.</p>
-                        <a href="#" class="text-primary font-weight-bold text-decoration-none small">View More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
-                <div class="cat-card">
-                    <img src="Electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h5>ELECTRICAL</h5>
-                        <p>Generator, Alternator, Sensors, Wiring, Protection & Electrical tips.</p>
-                        <a href="#" class="text-primary font-weight-bold text-decoration-none small">View More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
-                <div class="cat-card">
-                    <img src="mechanical.jpg" alt="Mechanical" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h5>MECHANICAL</h5>
-                        <p>Engine parts, Overhauling, Maintenance tips & Mechanical knowledge.</p>
-                        <a href="#" class="text-primary font-weight-bold text-decoration-none small">View More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
-                <div class="cat-card">
-                    <img src="control system.jpg" alt="Control System" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h5>CONTROL SYSTEM</h5>
-                        <p>GCP, TEM, PLC, Sensors, I/O, Communication & Control Logic.</p>
-                        <a href="#" class="text-primary font-weight-bold text-decoration-none small">View More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
-                <div class="cat-card">
-                    <img src="troubleshoot.jpg" alt="Troubleshooting" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h5>TROUBLESHOOTING</h5>
-                        <p>Fault codes, Symptoms, Causes & Solutions with real examples.</p>
-                        <a href="#" class="text-primary font-weight-bold text-decoration-none small">View More &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 6. Recent Articles Section -->
-    <div class="container my-5" id="blog">
-        <h3 class="section-title">RECENT ARTICLES</h3>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="article-card">
-                    <img src="engine.webp" alt="MWM TCG" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h6>MWM TCG 2020 V16K Engine Overview</h6>
-                        <div class="date mb-2"><i class="far fa-calendar-alt me-1"></i> May 18, 2024</div>
-                        <p class="small text-muted">Complete technical overview, operational procedures, and specifications for MWM TCG 2020 V16K engine.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="article-card">
-                    <img src="control system.jpg" alt="GCP Panel" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h6>GCP Panel – Complete Explanation</h6>
-                        <div class="date mb-2"><i class="far fa-calendar-alt me-1"></i> May 15, 2024</div>
-                        <p class="small text-muted">Detailed guide on Generator Control Panel configuration, fault code analysis, and logic setup.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="article-card">
-                    <img src="troubleshoot.jpg" alt="Common Faults" onerror="this.src='tech.png'">
-                    <div class="card-body">
-                        <h6>Common Faults & Troubleshooting</h6>
-                        <div class="date mb-2"><i class="far fa-calendar-alt me-1"></i> May 8, 2024</div>
-                        <p class="small text-muted">Practical solutions and case studies for everyday gas engine and generator problems.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 7. Footer -->
-    <footer id="contact">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <h5>SAZEDUL GENERATOR TECH</h5>
-                    <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>QUICK LINKS</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#engine">Engine Technology</a></li>
-                        <li><a href="#electrical">Electrical Solutions</a></li>
-                        <li><a href="#mechanical">Mechanical Systems</a></li>
-                        <li><a href="#control">Control System</a></li>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+            <div class="container">
+                <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link active" href="#" onclick="showHome()">HOME</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp', 'MWM & CAT Gas Engine components, operation & settings.')">ENGINE</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'Electrical.jpg', 'Generator, Alternator, Sensors, Wiring, Protection & Electrical tips.')">ELECTRICAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('MECHANICAL', 'mechanical.jpg', 'Engine parts, Overhauling, Maintenance tips & Mechanical knowledge.')">MECHANICAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg', 'GCP, TEM, PLC, Sensors, I/O, Communication & Control Logic.')">CONTROL SYSTEM</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg', 'Fault codes, Symptoms, Causes & Solutions with real examples.')">TROUBLESHOOTING</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
-                    <h5>CONTACT US</h5>
-                    <p><i class="fas fa-envelope me-2 text-warning"></i> mdsazedulhaque84@gmail.com</p>
-                    <p><i class="fas fa-globe me-2 text-warning"></i> sazedul2030.github.io</p>
-                    <div class="social-icons mt-3">
-                        <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank" class="text-white me-3"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </nav>
+
+        <!-- Hero Banner -->
+        <div class="hero-banner">
+            <div class="container">
+                <h1>POWERING KNOWLEDGE<br><span style="color: var(--accent-color);">GENERATING SOLUTIONS</span></h1>
+                <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
+                <a href="#categories" class="btn-custom">EXPLORE NOW <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+        </div>
+
+        <!-- Dynamic Category Details Section (Opens when clicked) -->
+        <div class="container my-4">
+            <div id="detail-view">
+                <button class="btn btn-sm btn-secondary mb-3" onclick="closeDetail()"><i class="fas fa-arrow-left"></i> Back to Categories</button>
+                <h2 id="detail-title" class="fw-bold mb-3" style="color: var(--primary-color);"></h2>
+                <img id="detail-img" src="" class="img-fluid rounded mb-3" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Category Detail">
+                <p id="detail-desc" class="lead fs-6"></p>
+                <hr>
+                <div id="detail-articles">
+                    <h5 class="fw-bold text-muted">Exclusive Content & Documentation</h5>
+                    <p class="text-secondary small">Admin is updating new detailed articles, wiring diagrams, and guides for this section.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="container my-5" id="categories">
+            <h3 class="section-title">EXPLORE BY CATEGORY</h3>
+            <div class="row g-4">
+                <!-- 1. Engine -->
+                <div class="col-6 col-md-4 col-lg-2-4">
+                    <div class="cat-card" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp', 'Detailed MWM & CAT Gas Engine technical breakdown, overhauling steps, and component guides.')">
+                        <img src="engine.webp" alt="Engine Technology" onerror="this.src='tech.png'">
+                        <div class="card-body">
+                            <h5>ENGINE TECHNOLOGY</h5>
+                            <p>MWM & CAT Gas Engine components, operation & settings.</p>
+                            <span class="text-primary font-weight-bold small">View Details &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 2. Electrical (Fixed File Path: Electrical.jpg) -->
+                <div class="col-6 col-md-4 col-lg-2-4">
+                    <div class="cat-card" onclick="openCategory('ELECTRICAL', 'Electrical.jpg', 'Complete guide on Generator, Alternator, Wiring Diagrams, and Protection Relays.')">
+                        <img src="Electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
+                        <div class="card-body">
+                            <h5>ELECTRICAL</h5>
+                            <p>Generator, Alternator, Sensors, Wiring, Protection & Electrical tips.</p>
+                            <span class="text-primary font-weight-bold small">View Details &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3. Mechanical -->
+                <div class="col-6 col-md-4 col-lg-2-4">
+                    <div class="cat-card" onclick="openCategory('MECHANICAL', 'mechanical.jpg', 'Engine parts maintenance, clearance settings, and overhauling procedure guides.')">
+                        <img src="mechanical.jpg" alt="Mechanical" onerror="this.src='tech.png'">
+                        <div class="card-body">
+                            <h5>MECHANICAL</h5>
+                            <p>Engine parts, Overhauling, Maintenance tips & Mechanical knowledge.</p>
+                            <span class="text-primary font-weight-bold small">View Details &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 4. Control System -->
+                <div class="col-6 col-md-4 col-lg-2-4">
+                    <div class="cat-card" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg', 'GCP, TEM, PLC programming, sensor signals, and control panel setups.')">
+                        <img src="control system.jpg" alt="Control System" onerror="this.src='tech.png'">
+                        <div class="card-body">
+                            <h5>CONTROL SYSTEM</h5>
+                            <p>GCP, TEM, PLC, Sensors, I/O, Communication & Control Logic.</p>
+                            <span class="text-primary font-weight-bold small">View Details &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 5. Troubleshooting -->
+                <div class="col-6 col-md-4 col-lg-2-4">
+                    <div class="cat-card" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg', 'Fault codes analysis, real-world symptoms, and quick solution case studies.')">
+                        <img src="troubleshoot.jpg" alt="Troubleshooting" onerror="this.src='tech.png'">
+                        <div class="card-body">
+                            <h5>TROUBLESHOOTING</h5>
+                            <p>Fault codes, Symptoms, Causes & Solutions with real examples.</p>
+                            <span class="text-primary font-weight-bold small">View Details &rarr;</span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2026 SAZEDUL Generator Tech. All Rights Reserved. Designed for Power Generation Professionals.</p>
-            </div>
         </div>
-    </footer>
 
-    <!-- Bootstrap 5 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstraps.bundle.min.js"></script>
+        <!-- Footer -->
+        <footer id="contact">
+            <div class="container">
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <h5>SAZEDUL GENERATOR TECH</h5>
+                        <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>CONTACT US</h5>
+                        <p><i class="fas fa-envelope me-2 text-warning"></i> mdsazedulhaque84@gmail.com</p>
+                        <p><i class="fas fa-globe me-2 text-warning"></i> sazedul2030.github.io</p>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 SAZEDUL Generator Tech. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        let isSignUp = false;
+
+        // Check login status on page load
+        window.onload = function() {
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('main-website').style.display = 'block';
+            }
+        };
+
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('auth-title').innerText = isSignUp ? "Create a new account" : "Please Sign In to access the website";
+            document.getElementById('auth-btn').innerText = isSignUp ? "SIGN UP" : "SIGN IN";
+            document.getElementById('auth-switch-text').innerText = isSignUp ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('auth-switch-link').innerText = isSignUp ? "Sign In" : "Sign Up";
+        }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+
+            if (isSignUp) {
+                localStorage.setItem('user_' + email, password);
+                alert("Account created successfully! Now Sign In.");
+                toggleAuthMode();
+            } else {
+                const savedPassword = localStorage.getItem('user_' + email);
+                if (savedPassword && savedPassword === password) {
+                    localStorage.setItem('isLoggedIn', 'true');
+                    document.getElementById('auth-overlay').style.display = 'none';
+                    document.getElementById('main-website').style.display = 'block';
+                } else {
+                    alert("Invalid email or password! Please sign up first if you don't have an account.");
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            location.reload();
+        }
+
+        // Open Category Details View
+        function openCategory(title, img, desc) {
+            document.getElementById('detail-title').innerText = title;
+            document.getElementById('detail-img').src = img;
+            document.getElementById('detail-desc').innerText = desc;
+            document.getElementById('detail-view').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('detail-view').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function closeDetail() {
+            document.getElementById('detail-view').style.display = 'none';
+        }
+
+        function showHome() {
+            closeDetail();
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
