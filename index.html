@@ -50,7 +50,6 @@
 
         /* Detail View */
         #detail-view { display: none; background: #fff; border-radius: 12px; padding: 25px; margin-top: 30px; border: 1px solid #e2e8f0; }
-        .post-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
 
         footer { background: var(--secondary-color); color: #94a3b8; padding: 40px 0 20px; margin-top: 50px; }
     </style>
@@ -105,22 +104,6 @@
             <button class="btn btn-sm btn-outline-secondary mb-3" onclick="closeDetail()"><i class="fas fa-arrow-left me-1"></i> Back to Categories</button>
             <h2 id="detail-title" class="fw-bold mb-3" style="color: var(--primary-color);"></h2>
             <img id="detail-img" src="" class="img-fluid rounded mb-4" style="max-height: 350px; width: 100%; object-fit: cover;" alt="Banner">
-
-            <!-- ADMIN CONTROL PANEL -->
-            <div class="card p-3 mb-4 border-warning bg-light">
-                <h5 class="fw-bold text-dark mb-2"><i class="fas fa-plus-circle text-warning me-2"></i>Add Post (Text, Image or Video)</h5>
-                <input type="text" id="post-title" class="form-control form-control-sm mb-2" placeholder="Post Title">
-                <textarea id="post-text" class="form-control form-control-sm mb-2" rows="3" placeholder="Write description..."></textarea>
-                <div class="row g-2 mb-2">
-                    <div class="col-md-6"><input type="text" id="post-img-url" class="form-control form-control-sm" placeholder="Image Name (e.g. electrical.jpg)"></div>
-                    <div class="col-md-6"><input type="text" id="post-video-url" class="form-control form-control-sm" placeholder="YouTube Embed URL"></div>
-                </div>
-                <button class="btn btn-sm btn-warning font-weight-bold" onclick="addPost()"><i class="fas fa-upload me-1"></i> Publish Post</button>
-            </div>
-
-            <hr>
-            <h4 class="fw-bold mb-3">Posts & Documentation</h4>
-            <div id="posts-container"></div>
         </div>
     </div>
 
@@ -128,31 +111,31 @@
     <div class="container my-5" id="categories">
         <h3 class="section-title">EXPLORE BY CATEGORY</h3>
         <div class="row g-4">
-            <div class="col-6 col-md-4 col-lg-2-4">
+            <div class="col-6 col-md-4">
                 <div class="cat-card" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">
                     <img src="engine.webp" alt="Engine" onerror="this.src='tech.png'">
                     <div class="card-body"><h5>ENGINE TECHNOLOGY</h5><p class="small text-muted mb-0">MWM & CAT Gas Engine components.</p></div>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
+            <div class="col-6 col-md-4">
                 <div class="cat-card" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">
                     <img src="electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
                     <div class="card-body"><h5>ELECTRICAL</h5><p class="small text-muted mb-0">Generator, Wiring & Protection.</p></div>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
+            <div class="col-6 col-md-4">
                 <div class="cat-card" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">
                     <img src="mechanical.jpg" alt="Mechanical" onerror="this.src='tech.png'">
                     <div class="card-body"><h5>MECHANICAL</h5><p class="small text-muted mb-0">Engine Overhauling & Clearance.</p></div>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
+            <div class="col-6 col-md-4">
                 <div class="cat-card" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">
                     <img src="control system.jpg" alt="Control System" onerror="this.src='tech.png'">
                     <div class="card-body"><h5>CONTROL SYSTEM</h5><p class="small text-muted mb-0">GCP, TEM, PLC & Sensors.</p></div>
                 </div>
             </div>
-            <div class="col-6 col-md-4 col-lg-2-4">
+            <div class="col-6 col-md-4">
                 <div class="cat-card" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">
                     <img src="troubleshoot.jpg" alt="Troubleshooting" onerror="this.src='tech.png'">
                     <div class="card-body"><h5>TROUBLESHOOTING</h5><p class="small text-muted mb-0">Fault codes & practical solutions.</p></div>
@@ -169,67 +152,15 @@
     </footer>
 
     <script>
-        let currentCategory = '';
-
         function openCategory(title, img) {
-            currentCategory = title;
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-img').src = img;
             document.getElementById('detail-view').style.display = 'block';
-            loadPosts();
             window.scrollTo({ top: document.getElementById('detail-view').offsetTop - 80, behavior: 'smooth' });
         }
 
         function closeDetail() { document.getElementById('detail-view').style.display = 'none'; }
         function showHome() { closeDetail(); }
-
-        function addPost() {
-            const title = document.getElementById('post-title').value;
-            const text = document.getElementById('post-text').value;
-            const img = document.getElementById('post-img-url').value;
-            const video = document.getElementById('post-video-url').value;
-
-            if (!title && !text && !img && !video) return alert("Fill at least one field!");
-
-            const postsKey = 'posts_' + currentCategory;
-            let posts = JSON.parse(localStorage.getItem(postsKey) || '[]');
-            posts.unshift({ id: Date.now(), title, text, img, video, date: new Date().toLocaleDateString() });
-            localStorage.setItem(postsKey, JSON.stringify(posts));
-
-            document.getElementById('post-title').value = '';
-            document.getElementById('post-text').value = '';
-            document.getElementById('post-img-url').value = '';
-            document.getElementById('post-video-url').value = '';
-            loadPosts();
-        }
-
-        function loadPosts() {
-            const container = document.getElementById('posts-container');
-            let posts = JSON.parse(localStorage.getItem('posts_' + currentCategory) || '[]');
-            if (posts.length === 0) {
-                container.innerHTML = '<p class="text-muted small">No posts published yet.</p>';
-                return;
-            }
-            container.innerHTML = posts.map(post => `
-                <div class="post-card">
-                    <div class="d-flex justify-content-between">
-                        <h5 class="fw-bold">${post.title || 'Untitled'}</h5>
-                        <button class="btn btn-sm text-danger" onclick="deletePost(${post.id})"><i class="fas fa-trash"></i></button>
-                    </div>
-                    <small class="text-muted d-block mb-2">${post.date}</small>
-                    ${post.text ? `<p>${post.text}</p>` : ''}
-                    ${post.img ? `<img src="${post.img}" class="img-fluid rounded mb-2">` : ''}
-                    ${post.video ? `<div class="ratio ratio-16x9"><iframe src="${post.video}"></iframe></div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function deletePost(id) {
-            let posts = JSON.parse(localStorage.getItem('posts_' + currentCategory) || '[]');
-            posts = posts.filter(p => p.id !== id);
-            localStorage.setItem('posts_' + currentCategory, JSON.stringify(posts));
-            loadPosts();
-        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
