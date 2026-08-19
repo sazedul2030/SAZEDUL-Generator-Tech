@@ -6,75 +6,85 @@
     <title>SAZEDUL Generator Tech</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --accent-color: #f39c12;
-            --light-bg: #f8f9fa;
+            --primary-color: #1e293b;
+            --accent-color: #f59e0b;
+            --secondary-color: #0f172a;
+            --light-bg: #f8fafc;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; color: #333; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; color: #334155; }
         
-        /* Auth Screen */
+        /* Auth Screen Popup */
         #auth-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 37, 47, 0.95); z-index: 9999;
-            display: flex; align-items: center; justify-content: center;
+            background: rgba(15, 23, 42, 0.95); z-index: 9999;
+            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);
         }
         .auth-card {
-            background: #fff; padding: 30px; border-radius: 12px; width: 100%; max-width: 400px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3); text-align: center;
+            background: #ffffff; padding: 35px; border-radius: 16px; width: 100%; max-width: 420px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); text-align: center; border: 1px solid #e2e8f0;
         }
 
         /* Top Navigation Header */
-        .top-header { background: #fff; padding: 15px 0; border-bottom: 1px solid #e0e0e0; }
+        .top-header { background: #ffffff; padding: 15px 0; border-bottom: 1px solid #e2e8f0; }
         .logo-text { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); text-decoration: none; }
-        .social-icons a { font-size: 1.2rem; margin-left: 15px; color: #555; transition: color 0.3s; }
-        .social-icons a:hover { color: var(--accent-color); }
+        .social-icons a {
+            font-size: 1.1rem; margin-left: 12px; color: #64748b; transition: all 0.3s;
+            width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: #f1f5f9; text-decoration: none;
+        }
+        .social-icons a:hover { color: #fff; background: var(--accent-color); transform: translateY(-2px); }
         
         /* Main Navbar */
-        .navbar-custom { background-color: #1a252f; }
-        .navbar-custom .nav-link { color: #fff !important; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; padding: 12px 15px !important; }
-        .navbar-custom .nav-link:hover, .navbar-custom .nav-link.active { background-color: var(--accent-color); color: #000 !important; }
+        .navbar-custom { background-color: var(--secondary-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .navbar-custom .nav-link { color: #f8fafc !important; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; padding: 12px 18px !important; transition: all 0.3s; }
+        .navbar-custom .nav-link:hover, .navbar-custom .nav-link.active { background-color: var(--accent-color); color: #000 !important; border-radius: 4px; }
 
         /* Hero Banner */
-        .hero-banner { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('tech.png') center/cover; color: #fff; text-align: center; padding: 80px 20px; border-bottom: 5px solid var(--accent-color); }
-        .hero-banner h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; color: #fff; }
-        .hero-banner p { font-size: 1.1rem; color: #ddd; max-width: 600px; margin: 15px auto; }
-        .btn-custom { background-color: var(--accent-color); color: #000; font-weight: bold; border-radius: 4px; padding: 10px 25px; text-decoration: none; display: inline-block; cursor: pointer; }
-        .btn-custom:hover { background-color: #e67e22; color: #fff; }
+        .hero-banner { 
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('tech.png') center/cover; 
+            color: #fff; text-align: center; padding: 90px 20px; border-bottom: 5px solid var(--accent-color); 
+        }
+        .hero-banner h1 { font-size: 2.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .hero-banner p { font-size: 1.1rem; color: #cbd5e1; max-width: 650px; margin: 15px auto; }
+        .btn-custom { background-color: var(--accent-color); color: #000; font-weight: 700; border-radius: 6px; padding: 12px 28px; text-decoration: none; display: inline-block; transition: all 0.3s; border: none; }
+        .btn-custom:hover { background-color: #d97706; color: #fff; transform: translateY(-2px); }
 
         /* Category Cards */
-        .cat-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.3s; height: 100%; border: 1px solid #eee; cursor: pointer; }
-        .cat-card:hover { transform: translateY(-5px); }
-        .cat-card img { height: 160px; object-fit: cover; width: 100%; }
-        .cat-card .card-body { padding: 15px; }
-        .cat-card h5 { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; }
-        .cat-card p { font-size: 0.85rem; color: #666; }
+        .cat-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s; height: 100%; border: 1px solid #e2e8f0; cursor: pointer; }
+        .cat-card:hover { transform: translateY(-6px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .cat-card img { height: 170px; object-fit: cover; width: 100%; }
+        .cat-card .card-body { padding: 18px; }
+        .cat-card h5 { font-weight: 700; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 8px; }
+        .cat-card p { font-size: 0.85rem; color: #64748b; margin-bottom: 12px; }
 
         /* Section Titles */
         .section-title { text-align: center; margin: 40px 0 30px; font-weight: 800; text-transform: uppercase; color: var(--primary-color); position: relative; }
-        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--accent-color); display: block; margin: 8px auto 0; }
+        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--accent-color); display: block; margin: 8px auto 0; border-radius: 2px; }
 
-        /* Detail Modal / Section */
-        #detail-view { display: none; background: #fff; border-radius: 8px; padding: 30px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* Dynamic Details Section */
+        #detail-view { display: none; background: #fff; border-radius: 12px; padding: 30px; margin-top: 30px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .post-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
 
         /* Footer */
-        footer { background: #111; color: #aaa; padding: 50px 0 20px; margin-top: 50px; font-size: 0.9rem; }
+        footer { background: var(--secondary-color); color: #94a3b8; padding: 50px 0 20px; margin-top: 60px; font-size: 0.9rem; }
         footer h5 { color: #fff; font-weight: 700; margin-bottom: 20px; }
-        footer a { color: #aaa; text-decoration: none; }
+        footer a { color: #94a3b8; text-decoration: none; }
         footer a:hover { color: var(--accent-color); }
-        .footer-bottom { border-top: 1px solid #222; padding-top: 20px; margin-top: 30px; text-align: center; }
+        .footer-bottom { border-top: 1px solid #1e293b; padding-top: 20px; margin-top: 40px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <!-- 1. AUTH SYSTEM (Sign Up / Sign In Popup) -->
+    <!-- 1. AUTHENTICATION SYSTEM (Sign Up / Sign In Modal) -->
     <div id="auth-overlay">
         <div class="auth-card">
-            <h3 class="fw-bold mb-3" style="color: var(--primary-color);">SAZEDUL TECH</h3>
-            <p id="auth-title" class="text-muted small mb-4">Please Sign In to access the website</p>
+            <i class="fa-solid fa-bolt fs-1 text-warning mb-2"></i>
+            <h3 class="fw-bold mb-1" style="color: var(--primary-color);">SAZEDUL TECH</h3>
+            <p id="auth-title" class="text-muted small mb-4">Sign in to access technical resources</p>
             
             <form id="auth-form" onsubmit="handleAuth(event)">
                 <div class="mb-3 text-start">
@@ -85,7 +95,7 @@
                     <label class="form-label small font-weight-bold">Password</label>
                     <input type="password" id="auth-password" class="form-control" required placeholder="******">
                 </div>
-                <button type="submit" id="auth-btn" class="btn btn-warning w-100 fw-bold mb-3">SIGN IN</button>
+                <button type="submit" id="auth-btn" class="btn btn-warning w-100 fw-bold mb-3 py-2">SIGN IN</button>
             </form>
             
             <div class="small">
@@ -95,10 +105,10 @@
         </div>
     </div>
 
-    <!-- MAIN WEBSITE CONTENT (Hidden until signed in) -->
+    <!-- MAIN WEBSITE (Hidden until Signed In) -->
     <div id="main-website" style="display: none;">
 
-        <!-- Top Header -->
+        <!-- Top Navigation Header -->
         <div class="top-header">
             <div class="container d-flex justify-content-between align-items-center">
                 <a href="#" class="logo-text d-flex align-items-center">
@@ -106,17 +116,18 @@
                     <span>SAZEDUL <span style="color: var(--accent-color);">GENERATOR TECH</span></span>
                 </a>
                 <div class="d-flex align-items-center">
+                    <!-- Your Social Links Retained -->
                     <div class="social-icons me-3">
-                        <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank"><i class="fab fa-youtube"></i></a>
-                        <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                     </div>
-                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                    <button class="btn btn-sm btn-outline-danger font-weight-bold" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 </div>
             </div>
         </div>
 
-        <!-- Navbar -->
+        <!-- Main Navbar -->
         <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
             <div class="container">
                 <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -125,11 +136,11 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item"><a class="nav-link active" href="#" onclick="showHome()">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp', 'MWM & CAT Gas Engine components, operation & settings.')">ENGINE</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'Electrical.jpg', 'Generator, Alternator, Sensors, Wiring, Protection & Electrical tips.')">ELECTRICAL</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('MECHANICAL', 'mechanical.jpg', 'Engine parts, Overhauling, Maintenance tips & Mechanical knowledge.')">MECHANICAL</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg', 'GCP, TEM, PLC, Sensors, I/O, Communication & Control Logic.')">CONTROL SYSTEM</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg', 'Fault codes, Symptoms, Causes & Solutions with real examples.')">TROUBLESHOOTING</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">ENGINE</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'Electrical.jpg')">ELECTRICAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">MECHANICAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">CONTROL SYSTEM</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">TROUBLESHOOTING</a></li>
                     </ul>
                 </div>
             </div>
@@ -144,28 +155,54 @@
             </div>
         </div>
 
-        <!-- Dynamic Category Details Section (Opens when clicked) -->
+        <!-- Dynamic Category Content View (Opens on click) -->
         <div class="container my-4">
             <div id="detail-view">
-                <button class="btn btn-sm btn-secondary mb-3" onclick="closeDetail()"><i class="fas fa-arrow-left"></i> Back to Categories</button>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <button class="btn btn-sm btn-outline-secondary" onclick="closeDetail()"><i class="fas fa-arrow-left me-1"></i> Back to Categories</button>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6">Category Portal</span>
+                </div>
+                
                 <h2 id="detail-title" class="fw-bold mb-3" style="color: var(--primary-color);"></h2>
-                <img id="detail-img" src="" class="img-fluid rounded mb-3" style="max-height: 400px; width: 100%; object-fit: cover;" alt="Category Detail">
-                <p id="detail-desc" class="lead fs-6"></p>
+                <img id="detail-img" src="" class="img-fluid rounded mb-4 shadow-sm" style="max-height: 350px; width: 100%; object-fit: cover;" alt="Banner">
+
+                <!-- ADMIN CONTROL PANEL (For Uploading Image, Video, Text) -->
+                <div class="card p-3 mb-4 border-warning bg-light">
+                    <h5 class="fw-bold text-dark mb-2"><i class="fas fa-plus-circle text-warning me-2"></i>Add New Post (Text, Image or YouTube Video)</h5>
+                    <div class="row g-2">
+                        <div class="col-md-12">
+                            <input type="text" id="post-title" class="form-control form-control-sm" placeholder="Post Title / Heading">
+                        </div>
+                        <div class="col-md-12">
+                            <textarea id="post-text" class="form-control form-control-sm" rows="3" placeholder="Write technical notes, details, description..."></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="post-img-url" class="form-control form-control-sm" placeholder="Image File Name/URL (e.g., photo.jpg)">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="post-video-url" class="form-control form-control-sm" placeholder="YouTube Embed URL (e.g., https://www.youtube.com/embed/VIDEO_ID)">
+                        </div>
+                        <div class="col-12 text-end mt-2">
+                            <button class="btn btn-sm btn-warning font-weight-bold" onclick="addPost()"><i class="fas fa-upload me-1"></i> Publish Post</button>
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
-                <div id="detail-articles">
-                    <h5 class="fw-bold text-muted">Exclusive Content & Documentation</h5>
-                    <p class="text-secondary small">Admin is updating new detailed articles, wiring diagrams, and guides for this section.</p>
+                <h4 class="fw-bold mb-3" style="color: var(--primary-color);">Posts & Technical Documentation</h4>
+                <div id="posts-container">
+                    <!-- Dynamic Posts will load here -->
                 </div>
             </div>
         </div>
 
-        <!-- Categories Section -->
+        <!-- Explore Categories Grid -->
         <div class="container my-5" id="categories">
             <h3 class="section-title">EXPLORE BY CATEGORY</h3>
             <div class="row g-4">
                 <!-- 1. Engine -->
                 <div class="col-6 col-md-4 col-lg-2-4">
-                    <div class="cat-card" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp', 'Detailed MWM & CAT Gas Engine technical breakdown, overhauling steps, and component guides.')">
+                    <div class="cat-card" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">
                         <img src="engine.webp" alt="Engine Technology" onerror="this.src='tech.png'">
                         <div class="card-body">
                             <h5>ENGINE TECHNOLOGY</h5>
@@ -174,10 +211,10 @@
                         </div>
                     </div>
                 </div>
-                <!-- 2. Electrical (Fixed File Path: Electrical.jpg) -->
+                <!-- 2. Electrical (With Fixed Image) -->
                 <div class="col-6 col-md-4 col-lg-2-4">
-                    <div class="cat-card" onclick="openCategory('ELECTRICAL', 'Electrical.jpg', 'Complete guide on Generator, Alternator, Wiring Diagrams, and Protection Relays.')">
-                        <img src="Electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
+                    <div class="cat-card" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">
+                        <img src="electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
                         <div class="card-body">
                             <h5>ELECTRICAL</h5>
                             <p>Generator, Alternator, Sensors, Wiring, Protection & Electrical tips.</p>
@@ -187,7 +224,7 @@
                 </div>
                 <!-- 3. Mechanical -->
                 <div class="col-6 col-md-4 col-lg-2-4">
-                    <div class="cat-card" onclick="openCategory('MECHANICAL', 'mechanical.jpg', 'Engine parts maintenance, clearance settings, and overhauling procedure guides.')">
+                    <div class="cat-card" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">
                         <img src="mechanical.jpg" alt="Mechanical" onerror="this.src='tech.png'">
                         <div class="card-body">
                             <h5>MECHANICAL</h5>
@@ -198,7 +235,7 @@
                 </div>
                 <!-- 4. Control System -->
                 <div class="col-6 col-md-4 col-lg-2-4">
-                    <div class="cat-card" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg', 'GCP, TEM, PLC programming, sensor signals, and control panel setups.')">
+                    <div class="cat-card" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">
                         <img src="control system.jpg" alt="Control System" onerror="this.src='tech.png'">
                         <div class="card-body">
                             <h5>CONTROL SYSTEM</h5>
@@ -209,7 +246,7 @@
                 </div>
                 <!-- 5. Troubleshooting -->
                 <div class="col-6 col-md-4 col-lg-2-4">
-                    <div class="cat-card" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg', 'Fault codes analysis, real-world symptoms, and quick solution case studies.')">
+                    <div class="cat-card" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">
                         <img src="troubleshoot.jpg" alt="Troubleshooting" onerror="this.src='tech.png'">
                         <div class="card-body">
                             <h5>TROUBLESHOOTING</h5>
@@ -225,12 +262,12 @@
         <footer id="contact">
             <div class="container">
                 <div class="row g-4">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <h5>SAZEDUL GENERATOR TECH</h5>
                         <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
                     </div>
-                    <div class="col-md-4">
-                        <h5>CONTACT US</h5>
+                    <div class="col-md-6 text-md-end">
+                        <h5>CONTACT & SUPPORT</h5>
                         <p><i class="fas fa-envelope me-2 text-warning"></i> mdsazedulhaque84@gmail.com</p>
                         <p><i class="fas fa-globe me-2 text-warning"></i> sazedul2030.github.io</p>
                     </div>
@@ -243,11 +280,12 @@
 
     </div>
 
-    <!-- JavaScript logic -->
+    <!-- Script Logic -->
     <script>
         let isSignUp = false;
+        let currentCategory = '';
 
-        // Check login status on page load
+        // Check Login
         window.onload = function() {
             if (localStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('auth-overlay').style.display = 'none';
@@ -257,7 +295,7 @@
 
         function toggleAuthMode() {
             isSignUp = !isSignUp;
-            document.getElementById('auth-title').innerText = isSignUp ? "Create a new account" : "Please Sign In to access the website";
+            document.getElementById('auth-title').innerText = isSignUp ? "Create a new account" : "Sign in to access technical resources";
             document.getElementById('auth-btn').innerText = isSignUp ? "SIGN UP" : "SIGN IN";
             document.getElementById('auth-switch-text').innerText = isSignUp ? "Already have an account?" : "Don't have an account?";
             document.getElementById('auth-switch-link').innerText = isSignUp ? "Sign In" : "Sign Up";
@@ -279,7 +317,7 @@
                     document.getElementById('auth-overlay').style.display = 'none';
                     document.getElementById('main-website').style.display = 'block';
                 } else {
-                    alert("Invalid email or password! Please sign up first if you don't have an account.");
+                    alert("Invalid email or password! Please sign up first.");
                 }
             }
         }
@@ -290,22 +328,15 @@
         }
 
         // Open Category Details View
-        function openCategory(title, img, desc) {
+        function openCategory(title, img) {
+            currentCategory = title;
             document.getElementById('detail-title').innerText = title;
             document.getElementById('detail-img').src = img;
-            document.getElementById('detail-desc').innerText = desc;
             document.getElementById('detail-view').style.display = 'block';
+            loadPosts();
             window.scrollTo({ top: document.getElementById('detail-view').offsetTop - 80, behavior: 'smooth' });
         }
 
         function closeDetail() {
             document.getElementById('detail-view').style.display = 'none';
-        }
-
-        function showHome() {
-            closeDetail();
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+       
