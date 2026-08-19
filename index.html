@@ -79,7 +79,7 @@
 </head>
 <body>
 
-    <!-- 1. AUTHENTICATION SYSTEM (Sign Up / Sign In Modal) -->
+    <!-- AUTHENTICATION SYSTEM (Sign Up / Sign In Modal) -->
     <div id="auth-overlay">
         <div class="auth-card">
             <i class="fa-solid fa-bolt fs-1 text-warning mb-2"></i>
@@ -100,12 +100,12 @@
             
             <div class="small">
                 <span id="auth-switch-text">Don't have an account?</span>
-                <a href="#" id="auth-switch-link" onclick="toggleAuthMode()" class="fw-bold text-primary text-decoration-none">Sign Up</a>
+                <a href="javascript:void(0)" id="auth-switch-link" onclick="toggleAuthMode()" class="fw-bold text-primary text-decoration-none">Sign Up</a>
             </div>
         </div>
     </div>
 
-    <!-- MAIN WEBSITE (Hidden until Signed In) -->
+    <!-- MAIN WEBSITE -->
     <div id="main-website" style="display: none;">
 
         <!-- Top Navigation Header -->
@@ -116,7 +116,6 @@
                     <span>SAZEDUL <span style="color: var(--accent-color);">GENERATOR TECH</span></span>
                 </a>
                 <div class="d-flex align-items-center">
-                    <!-- Your Social Links Retained -->
                     <div class="social-icons me-3">
                         <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                         <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
@@ -137,7 +136,7 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item"><a class="nav-link active" href="#" onclick="showHome()">HOME</a></li>
                         <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">ENGINE</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'Electrical.jpg')">ELECTRICAL</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">ELECTRICAL</a></li>
                         <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">MECHANICAL</a></li>
                         <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">CONTROL SYSTEM</a></li>
                         <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">TROUBLESHOOTING</a></li>
@@ -155,7 +154,7 @@
             </div>
         </div>
 
-        <!-- Dynamic Category Content View (Opens on click) -->
+        <!-- Dynamic Category Content View -->
         <div class="container my-4">
             <div id="detail-view">
                 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -166,7 +165,7 @@
                 <h2 id="detail-title" class="fw-bold mb-3" style="color: var(--primary-color);"></h2>
                 <img id="detail-img" src="" class="img-fluid rounded mb-4 shadow-sm" style="max-height: 350px; width: 100%; object-fit: cover;" alt="Banner">
 
-                <!-- ADMIN CONTROL PANEL (For Uploading Image, Video, Text) -->
+                <!-- ADMIN CONTROL PANEL -->
                 <div class="card p-3 mb-4 border-warning bg-light">
                     <h5 class="fw-bold text-dark mb-2"><i class="fas fa-plus-circle text-warning me-2"></i>Add New Post (Text, Image or YouTube Video)</h5>
                     <div class="row g-2">
@@ -190,9 +189,7 @@
 
                 <hr>
                 <h4 class="fw-bold mb-3" style="color: var(--primary-color);">Posts & Technical Documentation</h4>
-                <div id="posts-container">
-                    <!-- Dynamic Posts will load here -->
-                </div>
+                <div id="posts-container"></div>
             </div>
         </div>
 
@@ -211,7 +208,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- 2. Electrical (With Fixed Image) -->
+                <!-- 2. Electrical -->
                 <div class="col-6 col-md-4 col-lg-2-4">
                     <div class="cat-card" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">
                         <img src="electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
@@ -285,7 +282,7 @@
         let isSignUp = false;
         let currentCategory = '';
 
-        // Check Login
+        // Check Login Status
         window.onload = function() {
             if (localStorage.getItem('isLoggedIn') === 'true') {
                 document.getElementById('auth-overlay').style.display = 'none';
@@ -303,12 +300,17 @@
 
         function handleAuth(e) {
             e.preventDefault();
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
+            const email = document.getElementById('auth-email').value.trim().toLowerCase();
+            const password = document.getElementById('auth-password').value.trim();
+
+            if (!email || !password) {
+                alert("Please fill in all fields!");
+                return;
+            }
 
             if (isSignUp) {
                 localStorage.setItem('user_' + email, password);
-                alert("Account created successfully! Now Sign In.");
+                alert("Account created successfully! Now click SIGN IN.");
                 toggleAuthMode();
             } else {
                 const savedPassword = localStorage.getItem('user_' + email);
@@ -317,7 +319,7 @@
                     document.getElementById('auth-overlay').style.display = 'none';
                     document.getElementById('main-website').style.display = 'block';
                 } else {
-                    alert("Invalid email or password! Please sign up first.");
+                    alert("Invalid Email or Password! If you don't have an account, click 'Sign Up' first.");
                 }
             }
         }
@@ -339,4 +341,6 @@
 
         function closeDetail() {
             document.getElementById('detail-view').style.display = 'none';
-       
+        }
+
+      
