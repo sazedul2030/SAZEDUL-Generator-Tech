@@ -1,94 +1,348 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAZEDUL Generator Tech</title>
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Firebase SDK (Version 8 - Browser Friendly) -->
+    <!-- Firebase SDKs (Version 8) -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #1e293b;
+            --accent-color: #f59e0b;
+            --secondary-color: #0f172a;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f1f5f9; color: #334155; }
+
+        /* Header & Socials */
+        .top-header { background: #ffffff; padding: 15px 0; border-bottom: 1px solid #e2e8f0; }
+        .logo-text { font-size: 1.4rem; font-weight: 800; color: var(--primary-color); text-decoration: none; }
+        .social-icons a {
+            font-size: 1.1rem; margin-left: 10px; color: #64748b; transition: all 0.3s;
+            width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+            border-radius: 50%; background: #f1f5f9; text-decoration: none;
+        }
+        .social-icons a:hover { color: #fff; background: var(--accent-color); transform: translateY(-2px); }
+        
+        /* Navbar */
+        .navbar-custom { background-color: var(--secondary-color); }
+        .navbar-custom .nav-link { color: #f8fafc !important; font-weight: 600; text-transform: uppercase; font-size: 0.85rem; padding: 12px 18px !important; }
+        .navbar-custom .nav-link:hover, .navbar-custom .nav-link.active { background-color: var(--accent-color); color: #000 !important; border-radius: 4px; }
+
+        /* Hero Banner */
+        .hero-banner { 
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)), url('tech.png') center/cover; 
+            color: #fff; text-align: center; padding: 80px 20px; border-bottom: 5px solid var(--accent-color); 
+        }
+        .hero-banner h1 { font-size: 2.5rem; font-weight: 800; text-transform: uppercase; }
+
+        /* Category Cards */
+        .cat-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); transition: all 0.3s; border: 1px solid #e2e8f0; cursor: pointer; height: 100%; }
+        .cat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .cat-card img { height: 160px; object-fit: cover; width: 100%; }
+        .cat-card .card-body { padding: 15px; }
+
+        .section-title { text-align: center; margin: 40px 0 30px; font-weight: 800; color: var(--primary-color); }
+        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--accent-color); display: block; margin: 8px auto 0; }
+
+        /* Detail View & Post Card */
+        #detail-view { display: none; background: #fff; border-radius: 12px; padding: 25px; margin-top: 30px; border: 1px solid #e2e8f0; }
+        .post-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+        .admin-panel { display: none; background: #fff8e1; border: 1px solid #ffe082; padding: 20px; border-radius: 8px; margin-bottom: 25px; }
+
+        footer { background: var(--secondary-color); color: #94a3b8; padding: 40px 0 20px; margin-top: 50px; }
+    </style>
 </head>
-<body class="bg-light p-4">
+<body>
 
-    <div class="container">
-        <h2 class="fw-bold mb-4">SAZEDUL Generator Tech - Database Test</h2>
-
-        <!-- Data Add Form -->
-        <div class="card p-4 shadow-sm mb-4">
-            <h4>নতুন তথ্য যোগ করুন</h4>
-            <div class="mb-3">
-                <input type="text" id="postTitle" class="form-control" placeholder="শিরোনাম (Title)">
+    <!-- Top Social Header -->
+    <div class="top-header">
+        <div class="container d-flex justify-content-between align-items-center">
+            <a href="#" class="logo-text d-flex align-items-center" onclick="showHome()">
+                <i class="fa-solid fa-gear text-warning me-2 fs-3"></i>
+                <span>SAZEDUL <span style="color: var(--accent-color);">GENERATOR TECH</span></span>
+            </a>
+            <div class="d-flex align-items-center">
+                <div class="social-icons me-3">
+                    <a href="https://www.facebook.com/share/198Fiyrpmg/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://youtube.com/@rokykhan555?si=F4EoZuR6Pg2m8IgH" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/in/md-sazedul-haque-5457093b3?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <!-- Admin Auth Modal Trigger -->
+                <button class="btn btn-sm btn-outline-warning text-dark fw-bold" id="auth-btn" data-bs-toggle="modal" data-bs-target="#authModal">Admin Login</button>
             </div>
-            <div class="mb-3">
-                <textarea id="postDesc" class="form-control" rows="3" placeholder="বিস্তারিত বিবরণ..."></textarea>
-            </div>
-            <button class="btn btn-primary" onclick="saveData()">ডেটাবেসে সেভ করুন</button>
         </div>
-
-        <!-- Saved Data List -->
-        <h4 class="fw-bold">সেভ করা তথ্যসমূহ:</h4>
-        <div id="dataList"></div>
     </div>
 
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <div class="container">
+            <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fas fa-bars fs-4"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#" onclick="showHome()">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">ENGINE</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">ELECTRICAL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">MECHANICAL</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">CONTROL SYSTEM</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#categories" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">TROUBLESHOOTING</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <div class="hero-banner">
+        <div class="container">
+            <h1>POWERING KNOWLEDGE<br><span style="color: var(--accent-color);">GENERATING SOLUTIONS</span></h1>
+            <p>Practical knowledge about MWM & CAT Gas Generator, Electrical, Mechanical, Control System, Maintenance & Troubleshooting.</p>
+        </div>
+    </div>
+
+    <!-- Dynamic Category Content View -->
+    <div class="container my-4">
+        <div id="detail-view">
+            <button class="btn btn-sm btn-outline-secondary mb-3" onclick="closeDetail()"><i class="fas fa-arrow-left me-1"></i> Back to Categories</button>
+            <h2 id="detail-title" class="fw-bold mb-3" style="color: var(--primary-color);"></h2>
+            <img id="detail-img" src="" class="img-fluid rounded mb-4" style="max-height: 350px; width: 100%; object-fit: cover;" alt="Banner">
+
+            <!-- ADMIN UPLOAD PANEL (Only visible after login) -->
+            <div id="admin-panel" class="admin-panel">
+                <h5 class="fw-bold text-dark mb-3"><i class="fas fa-plus-circle text-warning me-2"></i>Add New Resource (Firebase Database)</h5>
+                <input type="text" id="post-title" class="form-control form-control-sm mb-2" placeholder="Title">
+                <textarea id="post-text" class="form-control form-control-sm mb-2" rows="3" placeholder="Technical Description..."></textarea>
+                <div class="row g-2 mb-3">
+                    <div class="col-md-6"><input type="text" id="post-img-url" class="form-control form-control-sm" placeholder="Image File Name / URL (e.g. electrical.jpg)"></div>
+                    <div class="col-md-6"><input type="text" id="post-video-url" class="form-control form-control-sm" placeholder="YouTube Embed URL (e.g. https://www.youtube.com/embed/xxx)"></div>
+                </div>
+                <button class="btn btn-sm btn-warning font-weight-bold" onclick="uploadPost()"><i class="fas fa-upload me-1"></i> Save to Database</button>
+            </div>
+
+            <hr>
+            <h4 class="fw-bold mb-3">Documentation & Posts</h4>
+            <div id="posts-container"></div>
+        </div>
+    </div>
+
+    <!-- Categories Grid -->
+    <div class="container my-5" id="categories">
+        <h3 class="section-title">EXPLORE BY CATEGORY</h3>
+        <div class="row g-4">
+            <div class="col-6 col-md-4 col-lg-2-4">
+                <div class="cat-card" onclick="openCategory('ENGINE TECHNOLOGY', 'engine.webp')">
+                    <img src="engine.webp" alt="Engine" onerror="this.src='tech.png'">
+                    <div class="card-body"><h5>ENGINE TECHNOLOGY</h5><p class="small text-muted mb-0">MWM & CAT Gas Engine components.</p></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2-4">
+                <div class="cat-card" onclick="openCategory('ELECTRICAL', 'electrical.jpg')">
+                    <img src="electrical.jpg" alt="Electrical" onerror="this.src='tech.png'">
+                    <div class="card-body"><h5>ELECTRICAL</h5><p class="small text-muted mb-0">Generator, Wiring & Protection.</p></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2-4">
+                <div class="cat-card" onclick="openCategory('MECHANICAL', 'mechanical.jpg')">
+                    <img src="mechanical.jpg" alt="Mechanical" onerror="this.src='tech.png'">
+                    <div class="card-body"><h5>MECHANICAL</h5><p class="small text-muted mb-0">Engine Overhauling & Clearance.</p></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2-4">
+                <div class="cat-card" onclick="openCategory('CONTROL SYSTEM', 'control system.jpg')">
+                    <img src="control system.jpg" alt="Control System" onerror="this.src='tech.png'">
+                    <div class="card-body"><h5>CONTROL SYSTEM</h5><p class="small text-muted mb-0">GCP, TEM, PLC & Sensors.</p></div>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2-4">
+                <div class="cat-card" onclick="openCategory('TROUBLESHOOTING', 'troubleshoot.jpg')">
+                    <img src="troubleshoot.jpg" alt="Troubleshooting" onerror="this.src='tech.png'">
+                    <div class="card-body"><h5>TROUBLESHOOTING</h5><p class="small text-muted mb-0">Fault codes & practical solutions.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal (Sign In / Sign Up) -->
+    <div class="modal fade" id="authModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Admin Portal Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="email" id="auth-email" class="form-control mb-2" placeholder="Admin Email">
+                    <input type="password" id="auth-pass" class="form-control mb-3" placeholder="Password">
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-warning fw-bold w-48" onclick="handleLogin()">Sign In</button>
+                        <button class="btn btn-outline-secondary fw-bold w-48" onclick="handleSignUp()">Sign Up</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2026 SAZEDUL Generator Tech. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Code Logic -->
     <script>
-      // ১. আপনার Firebase কনফিগারেশন সেটআপ
-      const firebaseConfig = {
-        apiKey: "AIzaSyCXT0Aoc3BDrfufS5y2b4aedls2pqYx5fg",
-        authDomain: "sazedul-generator-tech.firebaseapp.com",
-        databaseURL: "https://sazedul-generator-tech-default-rtdb.firebaseio.com",
-        projectId: "sazedul-generator-tech",
-        storageBucket: "sazedul-generator-tech.firebasestorage.app",
-        messagingSenderId: "1054473529796",
-        appId: "1:1054473529796:web:ef7172ff56d293d5dd9c91",
-        measurementId: "G-WV46K5KD8S"
-      };
+        // 1. Firebase Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCXT0Aoc3BDrfufS5y2b4aedls2pqYx5fg",
+            authDomain: "sazedul-generator-tech.firebaseapp.com",
+            databaseURL: "https://sazedul-generator-tech-default-rtdb.firebaseio.com",
+            projectId: "sazedul-generator-tech",
+            storageBucket: "sazedul-generator-tech.firebasestorage.app",
+            messagingSenderId: "1054473529796",
+            appId: "1:1054473529796:web:ef7172ff56d293d5dd9c91",
+            measurementId: "G-WV46K5KD8S"
+        };
 
-      // ২. Firebase ইনিশিয়ালাইজেশন
-      firebase.initializeApp(firebaseConfig);
-      const database = firebase.database();
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.database();
 
-      // ৩. ডেটাবেসে তথ্য সেভ করার ফাংশন
-      function saveData() {
-        const title = document.getElementById('postTitle').value;
-        const desc = document.getElementById('postDesc').value;
+        let currentCategory = '';
+        let isAdminLoggedIn = false;
 
-        if(!title || !desc) {
-            alert('সবগুলো ঘর পূরণ করুন');
-            return;
+        // 2. Auth State Monitoring
+        auth.onAuthStateChanged(user => {
+            const authBtn = document.getElementById('auth-btn');
+            const adminPanel = document.getElementById('admin-panel');
+            
+            if (user) {
+                isAdminLoggedIn = true;
+                authBtn.innerText = "Logout";
+                authBtn.onclick = () => auth.signOut();
+                authBtn.removeAttribute("data-bs-toggle");
+                adminPanel.style.display = "block";
+            } else {
+                isAdminLoggedIn = false;
+                authBtn.innerText = "Admin Login";
+                authBtn.setAttribute("data-bs-toggle", "modal");
+                authBtn.onclick = null;
+                adminPanel.style.display = "none";
+            }
+            if(currentCategory) loadPosts();
+        });
+
+        // 3. Login & Signup Handlers
+        function handleLogin() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            auth.signInWithEmailAndPassword(email, pass)
+                .then(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+                    alert("Logged in successfully!");
+                })
+                .catch(err => alert("Error: " + err.message));
         }
 
-        // Realtime Database-এ নতুন পোস্ট যোগ করা
-        database.ref('posts').push({
-            title: title,
-            desc: desc,
-            timestamp: Date.now()
-        }).then(() => {
-            alert('সফলভাবে সেভ হয়েছে!');
-            document.getElementById('postTitle').value = '';
-            document.getElementById('postDesc').value = '';
-        }).catch((error) => {
-            alert('ভুল হয়েছে: ' + error.message);
-        });
-      }
+        function handleSignUp() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+            auth.createUserWithEmailAndPassword(email, pass)
+                .then(() => {
+                    bootstrap.Modal.getInstance(document.getElementById('authModal')).hide();
+                    alert("Account created successfully!");
+                })
+                .catch(err => alert("Error: " + err.message));
+        }
 
-      // ৪. ডেটাবেস থেকে তথ্য এনে স্ক্রিনে দেখানো
-      database.ref('posts').on('value', (snapshot) => {
-        const dataList = document.getElementById('dataList');
-        dataList.innerHTML = '';
-        
-        snapshot.forEach((childSnapshot) => {
-            const item = childSnapshot.val();
-            dataList.innerHTML += `
-                <div class="card p-3 my-2 border">
-                    <h5>${item.title}</h5>
-                    <p>${item.desc}</p>
-                </div>
-            `;
-        });
-      });
+        // 4. UI Functions
+        function openCategory(title, img) {
+            currentCategory = title;
+            document.getElementById('detail-title').innerText = title;
+            document.getElementById('detail-img').src = img;
+            document.getElementById('detail-view').style.display = 'block';
+            loadPosts();
+            window.scrollTo({ top: document.getElementById('detail-view').offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function closeDetail() { document.getElementById('detail-view').style.display = 'none'; }
+        function showHome() { closeDetail(); }
+
+        // 5. Firebase Realtime Database Upload
+        function uploadPost() {
+            const title = document.getElementById('post-title').value;
+            const text = document.getElementById('post-text').value;
+            const img = document.getElementById('post-img-url').value;
+            const video = document.getElementById('post-video-url').value;
+
+            if (!title && !text && !img && !video) return alert("Fill at least one field!");
+
+            // DB path: posts/ENGINE TECHNOLOGY, posts/ELECTRICAL etc.
+            const cleanCategoryKey = currentCategory.replace(/[\.#\$\[\]]/g, "_");
+            
+            db.ref('posts/' + cleanCategoryKey).push({
+                title: title,
+                text: text,
+                img: img,
+                video: video,
+                date: new Date().toLocaleDateString()
+            }).then(() => {
+                document.getElementById('post-title').value = '';
+                document.getElementById('post-text').value = '';
+                document.getElementById('post-img-url').value = '';
+                document.getElementById('post-video-url').value = '';
+                alert("Post saved to database!");
+            });
+        }
+
+        // 6. Load Posts from Firebase
+        function loadPosts() {
+            const container = document.getElementById('posts-container');
+            const cleanCategoryKey = currentCategory.replace(/[\.#\$\[\]]/g, "_");
+
+            db.ref('posts/' + cleanCategoryKey).on('value', snapshot => {
+                container.innerHTML = '';
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<p class="text-muted small">No documentation uploaded yet for this category.</p>';
+                    return;
+                }
+
+                snapshot.forEach(child => {
+                    const post = child.val();
+                    const postId = child.key;
+                    
+                    container.innerHTML += `
+                        <div class="post-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="fw-bold text-dark mb-1">${post.title || 'Untitled'}</h5>
+                                ${isAdminLoggedIn ? `<button class="btn btn-sm btn-outline-danger border-0" onclick="deletePost('${postId}')"><i class="fas fa-trash"></i></button>` : ''}
+                            </div>
+                            <small class="text-muted d-block mb-3"><i class="far fa-calendar-alt me-1"></i> Posted on: ${post.date}</small>
+                            ${post.text ? `<p style="white-space: pre-line;">${post.text}</p>` : ''}
+                            ${post.img ? `<img src="${post.img}" class="img-fluid rounded mb-3" style="max-height:400px; width:100%; object-fit:cover;">` : ''}
+                            ${post.video ? `<div class="ratio ratio-16x9 mb-3"><iframe src="${post.video}" allowfullscreen></iframe></div>` : ''}
+                        </div>
+                    `;
+                });
+            });
+        }
+
+        // 7. Delete Post
+        function deletePost(postId) {
+            if (confirm("Are you sure you want to delete this post?")) {
+                const cleanCategoryKey = currentCategory.replace(/[\.#\$\[\]]/g, "_");
+                db.ref('posts/' + cleanCategoryKey + '/' + postId).remove();
+            }
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
